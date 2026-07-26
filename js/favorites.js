@@ -187,8 +187,8 @@ class FavoritesPage {
                     "Hapus semua favorit?"
                 )) return;
 
-                Storage.remove(
-                    Storage.KEYS.FAVORITES
+                Storage.clearFavorites();
+               
                 );
 
                 this.render();
