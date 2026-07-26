@@ -241,9 +241,7 @@ class SettingsPage {
 
                 if(confirm("Hapus resume?")){
 
-                    Storage.remove(
-                        Storage.KEYS.RESUME
-                    );
+                    Storage.clearResume();
 
                     alert("Resume dihapus.");
 
