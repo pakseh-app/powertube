@@ -30,6 +30,12 @@ class PowerTubeApp {
 
         this.cacheElement();
 
+       if (window.Sidebar) {
+
+    Sidebar.render();
+
+}
+
         this.bindEvents();
 
         this.loadSettings();
@@ -41,7 +47,6 @@ class PowerTubeApp {
         console.log("PowerTube Started");
 
     }
-
     /* ============================================
        CACHE ELEMENT
     ============================================ */
