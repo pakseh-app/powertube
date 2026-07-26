@@ -522,3 +522,81 @@ a{
     font-size:13px;
 
 }
+
+/* ==========================================
+   SIDEBAR
+========================================== */
+
+#sidebar{
+
+    width:240px;
+
+    background:#111;
+
+    display:flex;
+
+    flex-direction:column;
+
+    padding:12px;
+
+    gap:8px;
+
+}
+
+.sidebar-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    width:100%;
+
+    padding:14px;
+
+    background:none;
+
+    border:none;
+
+    border-radius:12px;
+
+    color:#ddd;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    text-align:left;
+
+    font-size:16px;
+
+}
+
+.sidebar-item:hover,
+.sidebar-item:focus{
+
+    background:#242424;
+
+    outline:none;
+
+}
+
+.sidebar-item.active{
+
+    background:#ff0000;
+
+    color:#fff;
+
+}
+
+.sidebar-icon{
+
+    font-size:20px;
+
+    width:28px;
+
+    text-align:center;
+
+}
+
