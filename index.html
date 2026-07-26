@@ -1,23 +1,43 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
 
-<meta charset="UTF-8">
-<meta
-name="viewport"
-content="width=device-width,initial-scale=1.0">
+    <meta charset="UTF-8">
 
-<title>PowerTube</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-<link rel="manifest" href="manifest.json">
+    <meta
+        name="theme-color"
+        content="#111111">
 
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/home.css">
-<link rel="stylesheet" href="css/search.css">
-<link rel="stylesheet" href="css/player.css">
-<link rel="stylesheet" href="css/history.css">
-<link rel="stylesheet" href="css/settings.css">
-<link rel="stylesheet" href="css/responsive.css">
+    <meta
+        name="description"
+        content="PowerTube - Pemutar Video Ringan">
+
+    <title>PowerTube</title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <link rel="icon" href="assets/icon.png">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="css/home.css">
+
+    <link rel="stylesheet" href="css/search.css">
+
+    <link rel="stylesheet" href="css/player.css">
+
+    <link rel="stylesheet" href="css/history.css">
+
+    <link rel="stylesheet" href="css/settings.css">
+
+    <link rel="stylesheet" href="css/responsive.css">
 
 </head>
 
@@ -25,87 +45,120 @@ content="width=device-width,initial-scale=1.0">
 
 <div id="app">
 
-<header id="header">
+    <!-- =====================================
+         SIDEBAR
+    ====================================== -->
 
-<div id="logo">
-PowerTube
-</div>
+    <aside id="sidebar">
 
-<div id="searchBar">
+    </aside>
 
-<input
-id="searchInput"
-type="text"
-placeholder="Cari video..."
-autocomplete="off">
+    <!-- =====================================
+         MAIN
+    ====================================== -->
 
-<button id="searchButton">
+    <section id="main">
 
-🔍
+        <!-- HEADER -->
 
-</button>
+        <header id="header">
 
-</div>
+            <div id="logo">
 
-</header>
+                PowerTube
 
-<nav id="sidebar">
+            </div>
 
-<button data-page="home">
+            <div id="searchBar">
 
-🏠
-Beranda
+                <input
 
-</button>
+                    id="searchInput"
 
-<button data-page="search">
+                    type="text"
 
-🔍
-Search
+                    placeholder="Cari video..."
 
-</button>
+                    autocomplete="off">
 
-<button data-page="history">
+                <button
 
-🕒
-History
+                    id="searchButton"
 
-</button>
+                    type="button">
 
-<button data-page="favorites">
+                    🔍
 
-⭐
-Favorit
+                </button>
 
-</button>
+            </div>
 
-<button data-page="settings">
+        </header>
 
-⚙
-Settings
+        <!-- CONTENT -->
 
-</button>
+        <main id="content">
 
-</nav>
+        </main>
 
-<main id="content">
-
-</main>
+    </section>
 
 </div>
+
+<!-- ======================================================
+     CORE
+====================================================== -->
 
 <script src="js/storage.js"></script>
+
 <script src="js/utils.js"></script>
+
 <script src="js/cache.js"></script>
+
+<script src="js/toast.js"></script>
+
+<script src="js/loading.js"></script>
+
+<script src="js/keyboard.js"></script>
+
+<!-- ======================================================
+     COMPONENTS
+====================================================== -->
+
+<script src="components/video-card.js"></script>
+
+<script src="components/sidebar.js"></script>
+
+<!-- ======================================================
+     API
+====================================================== -->
+
 <script src="js/api.js"></script>
+
+<!-- ======================================================
+     PAGES
+====================================================== -->
+
 <script src="js/home.js"></script>
+
 <script src="js/search.js"></script>
+
 <script src="js/player.js"></script>
+
 <script src="js/history.js"></script>
+
 <script src="js/favorites.js"></script>
+
 <script src="js/settings.js"></script>
+
+<!-- ======================================================
+     APP
+====================================================== -->
+
 <script src="js/router.js"></script>
+
 <script src="js/app.js"></script>
 
 </body>
+
 </html>
