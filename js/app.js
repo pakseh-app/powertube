@@ -99,11 +99,7 @@ class PowerTubeApp {
 
         /* Keyboard Android TV */
 
-        document.addEventListener("keydown",
-
-            this.handleKeyDown.bind(this)
-
-        );
+      
 
     }
 
