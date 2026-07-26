@@ -1,7 +1,7 @@
 /* ==========================================================
    PowerTube
    app.js
-   Version : 1.0
+   Version : 2.0
 ========================================================== */
 
 class PowerTubeApp {
@@ -12,7 +12,7 @@ class PowerTubeApp {
 
         this.initialized = false;
 
-        this.elements = {};
+        this.searchInput = null;
 
     }
 
@@ -22,13 +22,19 @@ class PowerTubeApp {
 
     init() {
 
-        if (this.initialized) return;
+        if (this.initialized) {
 
-        this.cacheElements();
+            return;
+
+        }
+
+        this.cacheElement();
 
         this.bindEvents();
 
-        this.loadDefaultPage();
+        this.loadSettings();
+
+        this.openHome();
 
         this.initialized = true;
 
@@ -37,22 +43,14 @@ class PowerTubeApp {
     }
 
     /* ============================================
-       CACHE DOM
+       CACHE ELEMENT
     ============================================ */
 
-    cacheElements() {
+    cacheElement() {
 
-        this.elements.content =
-            document.getElementById("content");
+        this.searchInput =
 
-        this.elements.searchInput =
             document.getElementById("searchInput");
-
-        this.elements.searchButton =
-            document.getElementById("searchButton");
-
-        this.elements.sidebarButtons =
-            document.querySelectorAll("#sidebar button");
 
     }
 
@@ -62,70 +60,17 @@ class PowerTubeApp {
 
     bindEvents() {
 
-        /* Sidebar */
+        this.bindSearch();
 
-        this.elements.sidebarButtons.forEach(button => {
+        this.bindNavigation();
 
-            button.addEventListener("click", () => {
+        window.addEventListener(
 
-                const page =
-                    button.dataset.page;
+            "resize",
 
-                this.navigate(page);
+            this.onResize.bind(this)
 
-            });
-
-        });
-
-        /* Search Button */
-
-        this.elements.searchButton.addEventListener("click", () => {
-
-            this.startSearch();
-
-        });
-
-        /* Enter Search */
-
-        this.elements.searchInput.addEventListener("keydown", e => {
-
-            if (e.key === "Enter") {
-
-                this.startSearch();
-
-            }
-
-        });
-
-        /* Keyboard Android TV */
-
-      
-
-    }
-
-    /* ============================================
-       KEYBOARD
-    ============================================ */
-
-    handleKeyDown(event) {
-
-        switch (event.key) {
-
-            case "F5":
-
-                event.preventDefault();
-
-                location.reload();
-
-                break;
-
-            case "Escape":
-
-                this.navigate("home");
-
-                break;
-
-        }
+        );
 
     }
 
@@ -133,83 +78,206 @@ class PowerTubeApp {
        SEARCH
     ============================================ */
 
-    startSearch() {
+    bindSearch() {
 
-        const keyword =
-            this.elements.searchInput.value.trim();
+        if (!this.searchInput) {
 
-        if (!keyword) return;
-
-        if (window.SearchModule) {
-
-            SearchModule.search(keyword);
+            return;
 
         }
 
-        this.navigate("search");
+        this.searchInput.addEventListener(
 
-    }
+            "keydown",
 
-    /* ============================================
-       PAGE
-    ============================================ */
+            (event) => {
 
-    navigate(page) {
+                if (event.key !== "Enter") {
 
-        this.currentPage = page;
+                    return;
 
-        if (window.Router) {
+                }
 
-            Router.go(page);
+                const keyword =
 
-        }
+                    event.target.value.trim();
 
-        this.highlightMenu(page);
+                if (!keyword) {
 
-    }
+                    return;
 
-    /* ============================================
-       MENU ACTIVE
-    ============================================ */
+                }
 
-    highlightMenu(page) {
+                if (window.SearchModule) {
 
-        this.elements.sidebarButtons.forEach(button => {
+                    SearchModule.search(keyword);
 
-            if (button.dataset.page === page) {
-
-                button.style.background = "#ff3d3d";
-
-            } else {
-
-                button.style.background = "transparent";
+                }
 
             }
+
+        );
+
+    }
+
+    /* ============================================
+       NAVIGATION
+    ============================================ */
+
+    bindNavigation() {
+
+        const map = {
+
+            navHome: "home",
+
+            navHistory: "history",
+
+            navFavorites: "favorites",
+
+            navSettings: "settings"
+
+        };
+
+        Object.keys(map).forEach((id) => {
+
+            const element =
+
+                document.getElementById(id);
+
+            if (!element) {
+
+                return;
+
+            }
+
+            element.addEventListener(
+
+                "click",
+
+                () => {
+
+                    this.navigate(map[id]);
+
+                }
+
+            );
 
         });
 
     }
 
     /* ============================================
-       DEFAULT PAGE
+       NAVIGATE
     ============================================ */
 
-    loadDefaultPage() {
+    navigate(page, data = null) {
+
+        this.currentPage = page;
+
+        Router.go(page, data);
+
+    }
+
+    /* ============================================
+       HOME
+    ============================================ */
+
+    openHome() {
 
         this.navigate("home");
+
+    }
+
+    /* ============================================
+       SETTINGS
+    ============================================ */
+
+    loadSettings() {
+
+        if (
+
+            !window.Storage ||
+
+            !Storage.getSettings
+
+        ) {
+
+            return;
+
+        }
+
+        const settings =
+
+            Storage.getSettings();
+
+        if (
+
+            settings.theme === "dark"
+
+        ) {
+
+            document.body.classList.add(
+
+                "theme-dark"
+
+            );
+
+        }
+
+    }
+
+    /* ============================================
+       WINDOW RESIZE
+    ============================================ */
+
+    onResize() {
+
+        if (
+
+            window.Keyboard &&
+
+            Keyboard.refresh
+
+        ) {
+
+            Keyboard.refresh();
+
+        }
+
+    }
+
+    /* ============================================
+       GET PAGE
+    ============================================ */
+
+    getCurrentPage() {
+
+        return this.currentPage;
 
     }
 
 }
 
 /* ==========================================================
-   START APP
+   CREATE APP
 ========================================================== */
 
-window.PowerTube = new PowerTubeApp();
+window.PowerTube =
 
-window.addEventListener("DOMContentLoaded", () => {
+    new PowerTubeApp();
 
-    PowerTube.init();
+/* ==========================================================
+   START
+========================================================== */
 
-});
+window.addEventListener(
+
+    "DOMContentLoaded",
+
+    () => {
+
+        PowerTube.init();
+
+    }
+
+);
