@@ -1,7 +1,7 @@
 /* ==========================================================
    PowerTube
    router.js
-   Version : 1.0
+   Version : 1.1
 ========================================================== */
 
 class AppRouter {
@@ -11,6 +11,8 @@ class AppRouter {
         this.routes = {};
 
         this.currentRoute = "";
+
+        this.previousRoute = "";
 
         this.content =
             document.getElementById("content");
@@ -49,16 +51,59 @@ class AppRouter {
 
         }
 
+        this.previousRoute = this.currentRoute;
+
         this.currentRoute = name;
 
         this.clear();
 
-        this.routes[name](data);
+        try {
+
+            this.routes[name](data);
+
+        } catch (error) {
+
+            console.error(error);
+
+            this.error("Terjadi kesalahan saat membuka halaman.");
+
+            return;
+
+        }
+
+        // Refresh keyboard setelah halaman selesai dirender
+        setTimeout(() => {
+
+            if (window.Keyboard) {
+
+                Keyboard.refresh();
+
+            }
+
+        }, 100);
 
     }
 
     /* ============================================
-       CLEAR CONTENT
+       BACK
+    ============================================ */
+
+    back() {
+
+        if (this.previousRoute) {
+
+            this.go(this.previousRoute);
+
+            return;
+
+        }
+
+        this.go("home");
+
+    }
+
+    /* ============================================
+       CLEAR
     ============================================ */
 
     clear() {
@@ -142,12 +187,22 @@ class AppRouter {
     }
 
     /* ============================================
-       GET CURRENT
+       GET CURRENT ROUTE
     ============================================ */
 
     getCurrentRoute() {
 
         return this.currentRoute;
+
+    }
+
+    /* ============================================
+       GET PREVIOUS ROUTE
+    ============================================ */
+
+    getPreviousRoute() {
+
+        return this.previousRoute;
 
     }
 
@@ -160,8 +215,10 @@ class AppRouter {
 window.Router = new AppRouter();
 
 /* ==========================================================
-   REGISTER PAGE
+   REGISTER ROUTES
 ========================================================== */
+
+/* HOME */
 
 Router.register("home", () => {
 
@@ -177,6 +234,8 @@ Router.register("home", () => {
 
 });
 
+/* SEARCH */
+
 Router.register("search", () => {
 
     if (window.SearchModule) {
@@ -191,6 +250,8 @@ Router.register("search", () => {
 
 });
 
+/* PLAYER */
+
 Router.register("player", (video) => {
 
     if (window.PlayerModule) {
@@ -201,9 +262,11 @@ Router.register("player", (video) => {
 
     }
 
-    Router.loading("Memuat Player...");
+    Router.loading("Memuat Pemutar...");
 
 });
+
+/* HISTORY */
 
 Router.register("history", () => {
 
@@ -219,6 +282,8 @@ Router.register("history", () => {
 
 });
 
+/* FAVORITES */
+
 Router.register("favorites", () => {
 
     if (window.FavoritesModule) {
@@ -232,6 +297,8 @@ Router.register("favorites", () => {
     Router.loading("Memuat Favorit...");
 
 });
+
+/* SETTINGS */
 
 Router.register("settings", () => {
 
